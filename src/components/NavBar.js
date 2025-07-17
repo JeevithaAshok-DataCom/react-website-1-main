@@ -2,8 +2,9 @@ import React, {use, useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 import { Button } from './Button';
+import '../App.js';
 
-function NavBar() {
+export default function NavBar({isSignedIn, userName}) {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
 
@@ -25,6 +26,7 @@ function NavBar() {
     }, []);
     
     window.addEventListener('resize', showButton);
+    console.log('Signed in:', isSignedIn, 'Username:', userName);
   return (
     <nav className="navbar">
         <div className="navbar-container">
@@ -51,12 +53,19 @@ function NavBar() {
                     </Link>
                 </li>
                 <li className='nav-item'>
-                    <Link to="/sign-up" className='nav-links-mobile' onClick={closeMobileMenu}>
-                    Sign Up
-                    </Link>
+                {isSignedIn ? (
+                <span className='nav-links-mobile'>Welcome, {userName}!</span>
+                    ) : (
+                    <Link to="/sign-up" className='nav-links-mobile'>Sign Up</Link>
+                    )}
+                   
                 </li>
             </ul>
-            {button && <Button ButtonStyle ='btn--outline'>SIGN UP </Button>}
+            {button && !isSignedIn && (
+            <Link to="/sign-up">
+        <Button to="/sign-up" ButtonStyle='btn--outline'>SIGN UP</Button>
+        </Link>
+        )}
         </div>  
 
     </nav>
@@ -64,4 +73,3 @@ function NavBar() {
   )
 }
 
-export default NavBar;
