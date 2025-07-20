@@ -1,5 +1,5 @@
 import './App.css';
-import React, {use, useState} from 'react';
+import React, {use, useState, useEffect} from 'react';
 import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/pages/Home';
@@ -14,15 +14,30 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [userName, setUserName] = useState('');
 
+  useEffect(() =>
+  {
+    const storedSignIn = localStorage.getItem('isSignedIn');
+    const storedName= localStorage.getItem('userName');
+    if(storedSignIn)
+    {
+      setIsSignedIn(true);
+      setUserName(storedName || '');
+    }
+  },[]);
+
   const handleSignIn = (name) => {
     setIsSignedIn(true);
     setUserName(name);
+    localStorage.setItem('isSignedIn', 'true');
+    localStorage.setItem('userName', name);
   };
+
+  
 
   return (
     <>
     <Router>
-      <NavBar isSignedIn={isSignedIn} userName={userName} />
+      <NavBar isSignedIn={isSignedIn} userName={userName} setIsSignedIn={setIsSignedIn} setUserName={setUserName}/>
       <Routes>
         <Route path='/' Component={Home} />
           <Route path='/services' Component={Services} />
