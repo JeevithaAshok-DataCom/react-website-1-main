@@ -22,7 +22,7 @@ function MainSection() {
           buttonStyle='btn--outline'
           buttonSize='btn--large'
           // onClick={() => navigate('/cards')}
-          //  onClick={handleStartClick} - not working to be checked
+          // onClick={handleStartClick} - not working to be checked
         >
           GET STARTED
         </Button>

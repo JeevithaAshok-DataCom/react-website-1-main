@@ -4,7 +4,7 @@ import './NavBar.css';
 import { Button } from './Button';
 import '../App.js';
 
-export default function NavBar({isSignedIn, userName}) {
+export default function NavBar({isSignedIn, userName, setIsSignedIn, setUserName}) {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
 
@@ -25,6 +25,13 @@ export default function NavBar({isSignedIn, userName}) {
         showButton()
     }, []);
     
+    const handleLogout = () => {
+        setIsSignedIn(false);
+        setUserName('');
+        localStorage.removeItem('isSignedIn');
+        localStorage.removeItem(userName);
+    }
+
     window.addEventListener('resize', showButton);
     console.log('Signed in:', isSignedIn, 'Username:', userName);
   return (
@@ -52,24 +59,32 @@ export default function NavBar({isSignedIn, userName}) {
                     Products
                     </Link>
                 </li>
-                <li className='nav-item'>
-                {isSignedIn ? (
-                <span className='nav-links-mobile'>Welcome, {userName}!</span>
-                    ) : (
-                    <Link to="/sign-up" className='nav-links-mobile'>Sign Up</Link>
-                    )}
-                   
+                <li className="nav-item">
+                    {isSignedIn ? (
+                        <>
+                        <span className="nav-links-mobile">Welcome, {userName}!</span>
+                        </>
+                        ) : (
+                            <Link to="/sign-up" className="nav-links-mobile">Sign Up</Link>
+                        )}
                 </li>
-            </ul>
-            {button && !isSignedIn && (
-            <Link to="/sign-up">
-        <Button to="/sign-up" ButtonStyle='btn--outline'>SIGN UP</Button>
-        </Link>
-        )}
-        </div>  
+                </ul>
 
-    </nav>
+                {button && !isSignedIn && (
+                    <Link to="/sign-up">
+                     <Button to="/sign-up" ButtonStyle="btn--outline">
+                            SIGN UP
+                            </Button>
+                        </Link>
+                        )}
 
-  )
-}
+                        {button && isSignedIn && (
+                        <button onClick={handleLogout} className="btn btn--outline">
+                            LOGOUT
+                        </button>
+                )}
+                                </div>
+                            </nav>
+                )
+        }
 
