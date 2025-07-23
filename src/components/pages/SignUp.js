@@ -2,9 +2,11 @@ import React, {use, useState, useEffect} from 'react';
 import '../../App.css';
 import '../pages/SignUp.css';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
-export default function SignUp({onSignIn}) {
+export default function SignUp() {
   // return <h1 className='sign-up'>Sign Up :)</h1>;
+  const { setIsSignedIn, setUserName } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name:'',
@@ -22,7 +24,10 @@ export default function SignUp({onSignIn}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form Submitted (not connected to backend)', formData);
-    onSignIn(formData.name);
+    setUserName(formData.name);
+    setIsSignedIn(true);
+    localStorage.setItem('isSignedIn', 'true');
+    localStorage.setItem('userName', formData.name);
     navigate('/');
   };
 
