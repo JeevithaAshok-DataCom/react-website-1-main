@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import './NavBar.css';
 import { Button } from './Button';
 import '../App.js';
+import { useAuth } from '../contexts/AuthContext';
 
-export default function NavBar({isSignedIn, userName, setIsSignedIn, setUserName}) {
+export default function NavBar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
+    const { isSignedIn, setIsSignedIn, userName, setUserName } = useAuth();
 
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
@@ -22,7 +24,11 @@ export default function NavBar({isSignedIn, userName, setIsSignedIn, setUserName
     };
 
     useEffect(() => {
-        showButton()
+        showButton();
+        window.addEventListener('resize', showButton);
+        return () => {
+            window.removeEventListener('resize', showButton);
+        }
     }, []);
     
     const handleLogout = () => {
@@ -32,7 +38,7 @@ export default function NavBar({isSignedIn, userName, setIsSignedIn, setUserName
         localStorage.removeItem(userName);
     }
 
-    window.addEventListener('resize', showButton);
+    
     console.log('Signed in:', isSignedIn, 'Username:', userName);
   return (
     <nav className="navbar">

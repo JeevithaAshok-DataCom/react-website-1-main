@@ -7,7 +7,7 @@ import Services from './components/pages/Services';
 import Products from './components/pages/Products';
 import SignUp from './components/pages/SignUp';
 import Cards from './components/Cards';
-
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
 
@@ -35,7 +35,7 @@ function App() {
   
 
   return (
-    <>
+    <AuthProvider>
     <Router>
       <NavBar isSignedIn={isSignedIn} userName={userName} setIsSignedIn={setIsSignedIn} setUserName={setUserName}/>
       <Routes>
@@ -46,7 +46,7 @@ function App() {
           <Route path="/cards" element={<Cards />} />
         </Routes>
       </Router>
-    </>
+    </AuthProvider>
   );
 }
 
