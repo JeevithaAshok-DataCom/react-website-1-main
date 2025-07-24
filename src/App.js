@@ -1,5 +1,5 @@
 import './App.css';
-import React, {use, useState, useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/pages/Home';
@@ -8,6 +8,8 @@ import Products from './components/pages/Products';
 import SignUp from './components/pages/SignUp';
 import Cards from './components/Cards';
 import { AuthProvider } from './contexts/AuthContext';
+import { NotificationProvider } from './contexts/NotificationContext';
+import NotificationBanner from './components/NotificationBanner';
 
 function App() {
 
@@ -36,7 +38,9 @@ function App() {
 
   return (
     <AuthProvider>
+      <NotificationProvider>
     <Router>
+      <NotificationBanner />
       <NavBar isSignedIn={isSignedIn} userName={userName} setIsSignedIn={setIsSignedIn} setUserName={setUserName}/>
       <Routes>
         <Route path='/' Component={Home} />
@@ -46,6 +50,7 @@ function App() {
           <Route path="/cards" element={<Cards />} />
         </Routes>
       </Router>
+      </NotificationProvider>
     </AuthProvider>
   );
 }
