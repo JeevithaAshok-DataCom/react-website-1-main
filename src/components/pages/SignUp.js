@@ -3,10 +3,12 @@ import '../../App.css';
 import '../pages/SignUp.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-
+import { useNotification } from '../../contexts/NotificationContext';
 export default function SignUp() {
   // return <h1 className='sign-up'>Sign Up :)</h1>;
   const { setIsSignedIn, setUserName } = useAuth();
+  const { showNotification } = useNotification();
+  
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name:'',
@@ -28,6 +30,7 @@ export default function SignUp() {
     setIsSignedIn(true);
     localStorage.setItem('isSignedIn', 'true');
     localStorage.setItem('userName', formData.name);
+    showNotification('Welcome! Don\'t miss our upcoming adventure offers!');
     navigate('/');
   };
 
