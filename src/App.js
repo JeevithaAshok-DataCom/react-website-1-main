@@ -10,6 +10,8 @@ import Cards from './components/Cards';
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import NotificationBanner from './components/NotificationBanner';
+import Login from './components/pages/Login';
+
 
 function App() {
 
@@ -48,6 +50,7 @@ function App() {
           <Route path='/products' Component={Products} />
           <Route path="/sign-up" element={<SignUp onSignIn={handleSignIn}  />} />
           <Route path="/cards" element={<Cards />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
       </NotificationProvider>
