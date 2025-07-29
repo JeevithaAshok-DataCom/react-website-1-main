@@ -1,4 +1,4 @@
-import React, {use, useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import '../../App.css';
 import '../pages/SignUp.css';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,8 @@ export default function SignUp() {
     setIsSignedIn(true);
     localStorage.setItem('isSignedIn', 'true');
     localStorage.setItem('userName', formData.name);
+    localStorage.setItem('userPassword', formData.password);
+    localStorage.setItem('userEmail', formData.email);
     showNotification('Welcome! Don\'t miss our upcoming adventure offers!');
     navigate('/');
   };

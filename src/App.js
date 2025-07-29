@@ -36,8 +36,6 @@ function App() {
     localStorage.setItem('userName', name);
   };
 
-  
-
   return (
     <AuthProvider>
       <NotificationProvider>
