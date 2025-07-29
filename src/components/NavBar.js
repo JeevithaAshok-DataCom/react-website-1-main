@@ -1,4 +1,4 @@
-import React, {use, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 import { Button } from './Button';
@@ -71,17 +71,27 @@ export default function NavBar() {
                         <span className="nav-links-mobile">Welcome, {userName}!</span>
                         </>
                         ) : (
+                            <>
+                            <Link to="/login" className="nav-links-mobile">Login</Link>
                             <Link to="/sign-up" className="nav-links-mobile">Sign Up</Link>
+                        </>
                         )}
                 </li>
                 </ul>
 
                 {button && !isSignedIn && (
-                    <Link to="/sign-up">
+                    <>
+                        <Link to="/login" style={{marginRight: '12px'}}>
+                            <Button to="/login" ButtonStyle="btn--outline">
+                                LOGIN
+                            </Button>
+                        </Link>
+                    <Link to="/sign-up" style={{marginLeft: '12px'}}>
                      <Button to="/sign-up" ButtonStyle="btn--outline">
                             SIGN UP
                             </Button>
                         </Link>
+                    </>
                         )}
 
                         {button && isSignedIn && (

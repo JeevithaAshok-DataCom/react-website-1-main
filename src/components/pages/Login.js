@@ -24,10 +24,12 @@ export default function Login() {
     }
     const storedName = localStorage.getItem('userName');
     const storedPassword = localStorage.getItem('userPassword');
+    
+    console.log('Stored credentials:', { storedName, storedPassword });
     if (formData.name === storedName && formData.password === storedPassword) {
       setUserName(formData.name);
       setIsSignedIn(true);
-      showNotification('Login successful!');
+      showNotification('Login successful! Check out our latest offers!');
       navigate('/');
     } else {
       showNotification('Invalid username or password.');
