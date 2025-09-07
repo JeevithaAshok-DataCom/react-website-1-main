@@ -37,6 +37,7 @@ function App() {
   };
 
   return (
+    <Provider store={store}>
     <AuthProvider>
       <NotificationProvider>
     <Router>
@@ -53,6 +54,7 @@ function App() {
       </Router>
       </NotificationProvider>
     </AuthProvider>
+    </Provider>
   );
 }
 
