@@ -11,7 +11,8 @@ import { AuthProvider } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import NotificationBanner from './components/NotificationBanner';
 import Login from './components/pages/Login';
-
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 function App() {
 

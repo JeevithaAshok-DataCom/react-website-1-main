@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNotification } from '../contexts/NotificationContext';
 import { useDispatch } from 'react-redux';
-import { addBooking } from '../redux/bookingsSlice';
+import { addBooking } from '../redux/bookingSlice';
 
 export default function BookingForm({ serviceName, onBooked }) {
   const { showNotification } = useNotification();

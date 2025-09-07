@@ -6,3 +6,5 @@ const store = configureStore({
         bookings: bookingReducer
     }
 });
+
+export { store };
