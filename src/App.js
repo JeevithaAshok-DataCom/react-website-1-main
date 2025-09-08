@@ -41,7 +41,7 @@ function App() {
     <Provider store={store}>
     <AuthProvider>
       <NotificationProvider>
-    <Router>
+    <Router basename='/react-website-1-main/'>
       <NotificationBanner />
       <NavBar isSignedIn={isSignedIn} userName={userName} setIsSignedIn={setIsSignedIn} setUserName={setUserName}/>
       <Routes>
