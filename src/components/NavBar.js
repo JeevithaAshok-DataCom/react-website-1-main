@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 import { Button } from './Button';
-import '../App.js';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function NavBar() {
@@ -14,11 +13,9 @@ export default function NavBar() {
     const closeMobileMenu = () => setClick(false);
 
     const showButton = () => {
-        if(window.innerWidth<=960)
-        {
+        if (window.innerWidth <= 960) {
             setButton(false);
-        }
-        else{
+        } else {
             setButton(true);
         }
     };
@@ -28,79 +25,72 @@ export default function NavBar() {
         window.addEventListener('resize', showButton);
         return () => {
             window.removeEventListener('resize', showButton);
-        }
+        };
     }, []);
-    
+
     const handleLogout = () => {
         setIsSignedIn(false);
         setUserName('');
         localStorage.removeItem('isSignedIn');
-        localStorage.removeItem(userName);
-    }
+        localStorage.removeItem('userName');
+    };
 
-    
-    console.log('Signed in:', isSignedIn, 'Username:', userName);
-  return (
-    <nav className="navbar">
-        <div className="navbar-container">
-            <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-            TRVL <i className='fab fa-typo3'></i>
-            </Link>
-            <div className='menu-icon' onClick={handleClick}>
-                <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
-            </div>
-            <ul className={click ? 'nav-menu active' : 'nav-menu'}>
-                <li className='nav-item'>
-                    <Link to="/" className='nav-links' onClick={closeMobileMenu}>
-                    Home
-                    </Link>
-                </li>
-                <li className='nav-item'>
-                    <Link to="/services" className='nav-links' onClick={closeMobileMenu}>
-                    Services
-                    </Link>
-                </li>
-                <li className='nav-item'>
-                    <Link to="/products" className='nav-links' onClick={closeMobileMenu}>
-                    Products
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    {isSignedIn ? (
-                        <>
-                        <span className="nav-links-mobile">Welcome, {userName}!</span>
-                        </>
+    return (
+        <nav className="navbar">
+            <div className="navbar-container">
+                <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
+                    TRVL <i className='fab fa-typo3'></i>
+                </Link>
+                <div className='menu-icon' onClick={handleClick}>
+                    <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
+                </div>
+                <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+                    <li className='nav-item'>
+                        <Link to="/" className='nav-links' onClick={closeMobileMenu}>
+                            Home
+                        </Link>
+                    </li>
+                    <li className='nav-item'>
+                        <Link to="/services" className='nav-links' onClick={closeMobileMenu}>
+                            Services
+                        </Link>
+                    </li>
+                    <li className='nav-item'>
+                        <Link to="/products" className='nav-links' onClick={closeMobileMenu}>
+                            Products
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        {isSignedIn ? (
+                            <span className="nav-links-mobile">Welcome, {userName}!</span>
                         ) : (
                             <>
-                            <Link to="/login" className="nav-links-mobile">Login</Link>
-                            <Link to="/sign-up" className="nav-links-mobile">Sign Up</Link>
-                        </>
+                                <Link to="/login" className="nav-links-mobile">Login</Link>
+                                <Link to="/sign-up" className="nav-links-mobile">Sign Up</Link>
+                            </>
                         )}
-                </li>
+                    </li>
                 </ul>
 
                 {button && !isSignedIn && (
                     <>
-                        <Link to="/login" style={{marginRight: '12px'}}>
-                            <Button to="/login" ButtonStyle="btn--outline">
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                            <Button to="/login" ButtonStyle="btn--outline" style={{ display: 'flex', gap: '12px' }}>
                                 LOGIN
                             </Button>
-                        </Link>
-                    <Link to="/sign-up" style={{marginLeft: '12px'}}>
-                     <Button to="/sign-up" ButtonStyle="btn--outline">
-                            SIGN UP
+                            <Button to="/sign-up" ButtonStyle="btn--outline" style={{ display: 'flex', gap: '12px' }}>
+                                SIGN UP
                             </Button>
-                        </Link>
+                        </div>
                     </>
-                        )}
-
-                        {button && isSignedIn && (
-                        <button onClick={handleLogout} className="btn btn--outline">
-                            LOGOUT
-                        </button>
                 )}
-                                </div>
-                            </nav>
-                )
-        }
 
+                {button && isSignedIn && (
+                    <button onClick={handleLogout} className="btn btn--outline">
+                        LOGOUT
+                    </button>
+                )}
+            </div>
+        </nav>
+    );
+}
