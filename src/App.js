@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/pages/Home';
@@ -19,16 +19,14 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [userName, setUserName] = useState('');
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     const storedSignIn = localStorage.getItem('isSignedIn');
-    const storedName= localStorage.getItem('userName');
-    if(storedSignIn)
-    {
+    const storedName = localStorage.getItem('userName');
+    if (storedSignIn) {
       setIsSignedIn(true);
       setUserName(storedName || '');
     }
-  },[]);
+  }, []);
 
   const handleSignIn = (name) => {
     setIsSignedIn(true);
@@ -39,22 +37,22 @@ function App() {
 
   return (
     <Provider store={store}>
-    <AuthProvider>
-      <NotificationProvider>
-    <Router basename='/react-website-1-main/'>
-      <NotificationBanner />
-      <NavBar isSignedIn={isSignedIn} userName={userName} setIsSignedIn={setIsSignedIn} setUserName={setUserName}/>
-      <Routes>
-        <Route path='/' Component={Home} />
-          <Route path='/services' Component={Services} />
-          <Route path='/products' Component={Products} />
-          <Route path="/sign-up" element={<SignUp onSignIn={handleSignIn}  />} />
-          <Route path="/cards" element={<Cards />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </Router>
-      </NotificationProvider>
-    </AuthProvider>
+      <AuthProvider>
+        <NotificationProvider>
+          <Router basename='/react-website-1-main/'>
+            <NotificationBanner />
+            <NavBar isSignedIn={isSignedIn} userName={userName} setIsSignedIn={setIsSignedIn} setUserName={setUserName} />
+            <Routes>
+              <Route path='/' Component={Home} />
+              <Route path='/services' Component={Services} />
+              <Route path='/products' Component={Products} />
+              <Route path="/sign-up" element={<SignUp onSignIn={handleSignIn} />} />
+              <Route path="/cards" element={<Cards />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </Router>
+        </NotificationProvider>
+      </AuthProvider>
     </Provider>
   );
 }
