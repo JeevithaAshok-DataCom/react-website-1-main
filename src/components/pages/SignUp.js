@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import '../../App.css';
 import '../pages/SignUp.css';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useDispatch } from 'react-redux';
 import { useNotification } from '../../contexts/NotificationContext';
+import { signIn } from '../../redux/authSlice';
+
+
 export default function SignUp() {
-  // return <h1 className='sign-up'>Sign Up :)</h1>;
-  const { setIsSignedIn, setUserName } = useAuth();
+
+  const dispatch = useDispatch();
   const { showNotification } = useNotification();
   
   const navigate = useNavigate();
@@ -16,6 +19,9 @@ export default function SignUp() {
     password:''
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -23,17 +29,33 @@ export default function SignUp() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted (not connected to backend)', formData);
-    setUserName(formData.name);
-    setIsSignedIn(true);
-    localStorage.setItem('isSignedIn', 'true');
-    localStorage.setItem('userName', formData.name);
-    localStorage.setItem('userPassword', formData.password);
-    localStorage.setItem('userEmail', formData.email);
-    showNotification('Welcome! Don\'t miss our upcoming adventure offers!');
-    navigate('/');
+    setLoading(true);
+    setError('');
+    try {
+      const response = await fetch('https://localhost:7240/api/user/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password
+        })
+      });
+      if (!response.ok) {
+        const data = await response.text();
+        setError(data || 'Registration failed');
+      } else {
+        const user = await response.json();
+        dispatch(signIn({ name: user.name, email: user.email }));
+        showNotification(`Welcome, ${user.name}!`);
+        navigate('/');
+      }
+    } catch (err) {
+      setError('Network error');
+    }
+    setLoading(false);
   };
 
   return (
@@ -64,8 +86,11 @@ export default function SignUp() {
           onChange={handleChange}
           required
         />
-        <button type="submit">Sign Up</button>
-      </form>
+        <button type="submit" disabled={loading}>
+            {loading ? 'Signing Up...' : 'Sign Up'}
+          </button>
+          {error && <div style={{ color: 'red', marginTop: 10 }}>{error}</div>}
+        </form>
       </div>
     </div>
   );

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 import { Button } from './Button';
-import { useAuth } from '../contexts/AuthContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { signOut } from '../redux/authSlice';
 
 export default function NavBar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
-    const { isSignedIn, setIsSignedIn, userName, setUserName } = useAuth();
+    const dispatch = useDispatch();
+    const { isSignedIn, userName } = useSelector(state =>state.auth);
 
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
@@ -29,10 +31,7 @@ export default function NavBar() {
     }, []);
 
     const handleLogout = () => {
-        setIsSignedIn(false);
-        setUserName('');
-        localStorage.removeItem('isSignedIn');
-        localStorage.removeItem('userName');
+         dispatch(signOut());
     };
 
     return (
