@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import '../../App.css';
 import BookingForm from '../BookingForm';
-import { useAuth } from '../../contexts/AuthContext';
 import { useNotification } from '../../contexts/NotificationContext';
+import { useSelector } from 'react-redux';
 
 const SERVICES = [
   { id: 1, name: 'Mountain Guide' },
@@ -12,7 +12,7 @@ const SERVICES = [
 
 export default function Services() {
   const [selectedService, setSelectedService] = useState(null);
-  const { isSignedIn } = useAuth();
+  const { isSignedIn } = useSelector(state => state.auth);
   const { showNotification } = useNotification();
 
   const handleBookClick = (service) => {
