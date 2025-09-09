@@ -2,10 +2,9 @@ import React, {useState} from 'react';
 import '../../App.css';
 import '../pages/SignUp.css';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNotification } from '../../contexts/NotificationContext';
-import { signIn } from '../../redux/authSlice';
-
+import { registerUser } from '../../redux/authSlice'; 
 
 export default function SignUp() {
 
@@ -19,9 +18,8 @@ export default function SignUp() {
     password:''
   });
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
+  const { loading, error } = useSelector(state => state.auth);
+  
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -29,33 +27,16 @@ export default function SignUp() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  
+const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-    try {
-      const response = await fetch('https://localhost:7240/api/user/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password
-        })
-      });
-      if (!response.ok) {
-        const data = await response.text();
-        setError(data || 'Registration failed');
-      } else {
-        const user = await response.json();
-        dispatch(signIn({ name: user.name, email: user.email }));
+    dispatch(registerUser(formData))
+      .unwrap()
+      .then((user) => {
         showNotification(`Welcome, ${user.name}!`);
         navigate('/');
-      }
-    } catch (err) {
-      setError('Network error');
-    }
-    setLoading(false);
+      })
+      .catch(() => {});
   };
 
   return (
